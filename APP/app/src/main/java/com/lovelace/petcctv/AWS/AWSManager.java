@@ -30,8 +30,8 @@ public class AWSManager {
     private AWSKinesisVideoArchivedMediaClient archivedMediaClient;
 
     //AWS setting
-    private String accessKeyId = "AKIAYQTQW44UNSZN2NPG";
-    private String secretKey = "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";
+    private String accessKeyId = "";
+    private String secretKey = "";
 
     //For request
     private String streamName = "arten";
