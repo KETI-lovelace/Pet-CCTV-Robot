@@ -2,7 +2,12 @@ package com.lovelace.petcctv;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.regions.Region;
@@ -18,56 +23,121 @@ import com.amazonaws.services.kinesisvideoarchivedmedia.model.GetHLSStreamingSes
 import com.amazonaws.services.kinesisvideoarchivedmedia.model.HLSFragmentSelector;
 import com.amazonaws.services.kinesisvideoarchivedmedia.model.HLSFragmentSelectorType;
 import com.amazonaws.services.kinesisvideoarchivedmedia.model.PlaybackMode;
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.hls.HlsMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
+import com.lovelace.petcctv.AWS.AWSManager;
 
 public class MainActivity extends AppCompatActivity {
+
+    AWSManager awsManager;
+
+    Button startBtn;
+
+    //For video
+    private PlayerView videoView;
+    private SimpleExoPlayer player;
+
+    private Boolean playWhenReady = true;
+    private int currentWindow = 0;
+    private Long playbackPosition = 0L;
+
+    boolean isPlaying = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 1. credentials setting
-        AWSCredentials awsCredentials = new AWSCredentials() {
-            @Override
-            public String getAWSAccessKeyId() {
-                return null;
+        startBtn = findViewById(R.id.startBtn);
+
+        videoView = findViewById(R.id.videoView);
+
+        awsManager = new AWSManager();
+
+        startBtn.setOnClickListener(view -> {
+            if(!isPlaying) {
+                String url = awsManager.getVideoURL();
+                initializePlayer(url);
+                startBtn.setText("STOP");
+                isPlaying = true;
+            } else {
+                releasePlayer();
+                startBtn.setText("START");
+                isPlaying = false;
             }
+        });
+    }
 
+    private void initializePlayer(String url) {
+        if (player == null) {
+
+            player = ExoPlayerFactory.newSimpleInstance(this.getApplicationContext());
+
+            //플레이어 연결
+            videoView.setPlayer(player);
+
+        }
+
+        MediaSource mediaSource = buildMediaSource(Uri.parse(url));
+
+        //prepare
+        player.prepare(mediaSource, true, false);
+
+        //start,stop
+        player.setPlayWhenReady(playWhenReady);
+
+        player.addListener(new Player.EventListener() {
             @Override
-            public String getAWSSecretKey() {
-                return null;
+            public void onPlayerError(ExoPlaybackException error) {
+                player.prepare(mediaSource, false, true);
             }
-        };
+        });
+    }
 
-        AWSKinesisVideoClient videoClient = new AWSKinesisVideoClient(awsCredentials);
-        videoClient.setRegion(Region.getRegion(Regions.US_WEST_2));
+    private MediaSource buildMediaSource(Uri uri) {
 
-        AWSKinesisVideoArchivedMediaClient client = new AWSKinesisVideoArchivedMediaClient(awsCredentials);
-        client.setRegion(Region.getRegion(Regions.US_WEST_2));
+        String userAgent = Util.getUserAgent(this, "blackJin");
 
-        // 2. get data end point
-        GetDataEndpointRequest getDataEndpointRequest = new GetDataEndpointRequest();
-        getDataEndpointRequest.setStreamName("arten");
-        getDataEndpointRequest.setAPIName(APIName.GET_HLS_STREAMING_SESSION_URL);
-        GetDataEndpointResult dataEndpointResult = videoClient.getDataEndpoint(getDataEndpointRequest);
+        if (uri.getLastPathSegment().contains("mp3") || uri.getLastPathSegment().contains("mp4")) {
 
-        client.setEndpoint(dataEndpointResult.getDataEndpoint());
+            return new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory(userAgent))
+                    .createMediaSource(uri);
 
-        // 3. get HLS URL
-        GetHLSStreamingSessionURLRequest getHLSStreamingSessionURLRequest = new GetHLSStreamingSessionURLRequest();
-        getHLSStreamingSessionURLRequest.setStreamName("arten");
-        getHLSStreamingSessionURLRequest.setPlaybackMode(PlaybackMode.LIVE);
-        HLSFragmentSelector hlsFragmentSelector = new HLSFragmentSelector();
-        hlsFragmentSelector.setFragmentSelectorType(HLSFragmentSelectorType.SERVER_TIMESTAMP);
-//        hlsFragmentSelector.setTimestampRange(null);
-        getHLSStreamingSessionURLRequest.setHLSFragmentSelector(hlsFragmentSelector);
-        getHLSStreamingSessionURLRequest.setDiscontinuityMode(DiscontinuityMode.ALWAYS);
-//        getHLSStreamingSessionURLRequest.setMaxMediaPlaylistFragmentResults(null);
-//        getHLSStreamingSessionURLRequest.setExpires(null);
-        GetHLSStreamingSessionURLResult getHLSStreamingSessionURLResult = client.getHLSStreamingSessionURL(getHLSStreamingSessionURLRequest);
+        } else if (uri.getLastPathSegment().contains("m3u8")) {
 
-        // 4. set video
-        String url = getHLSStreamingSessionURLResult.getHLSStreamingSessionURL();
+            //com.google.android.exoplayer:exoplayer-hls 확장 라이브러리를 빌드 해야 합니다.
+            return new HlsMediaSource.Factory(new DefaultHttpDataSourceFactory(userAgent))
+                    .createMediaSource(uri);
 
+        } else {
+
+            return new ExtractorMediaSource.Factory(new DefaultDataSourceFactory(this, userAgent))
+                    .createMediaSource(uri);
+        }
+
+    }
+
+    private void releasePlayer() {
+        if (player != null) {
+            playbackPosition = player.getCurrentPosition();
+            currentWindow = player.getCurrentWindowIndex();
+            playWhenReady = player.getPlayWhenReady();
+
+            videoView.setPlayer(null);
+            player.release();
+            player = null;
+        }
     }
 }
