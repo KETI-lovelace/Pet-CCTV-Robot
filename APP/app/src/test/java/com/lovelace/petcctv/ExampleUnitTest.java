@@ -1,4 +1,4 @@
-package com.example.petcctv;
+package com.lovelace.petcctv;
 
 import org.junit.Test;
 
