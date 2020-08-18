@@ -1,0 +1,21 @@
+# web site : https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi/blob/master/Raspberry_Pi_Guide.md
+
+# cd virtual env
+
+cd /home/pi/tflite1
+source tflite1-env/bin/activate
+
+# run_python program
+
+python3 TFLite_detection_webcam.py --modeldir=Sample_TFLite_model --edgetpu
+
+
+# speaker check
+aply -l
+sudo vim /usr/share/alsa/alsa.conf
+defaults.ctl.card 0 
+defaults.pcm.card 0 
+
+# number change!
+
+alsamixer

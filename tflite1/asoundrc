@@ -1,0 +1,10 @@
+pcm.!defautl{
+	type asym
+	playback.pcm "speaker"
+}
+pcm.speaker{
+	type plug
+	slave{
+		pcm "hw:<card number>, <device number>"
+	}
+}
