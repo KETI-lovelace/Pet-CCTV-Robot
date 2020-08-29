@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "40699256267",
+    "firebase_url": "https://soboro-6d610.firebaseio.com",
+    "project_id": "soboro-6d610",
+    "storage_bucket": "soboro-6d610.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40699256267:android:25c05626b874a5d19faa4e",
+        "android_client_info": {
+          "package_name": "com.example.soboro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40699256267-i1tvj8ubtvgc2qhme77rq19qdiv9ps7t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.soboro",
+            "certificate_hash": "f173f9f7e20ea402fe25aa7dc5191f13f77f5862"
+          }
+        },
+        {
+          "client_id": "40699256267-rmqmro8l1ecoc4gbns0n0vunhd6bff2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-qHD6HcEejg69zltGNVTE8Psr6uab01g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40699256267-rmqmro8l1ecoc4gbns0n0vunhd6bff2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
