@@ -22,4 +22,4 @@ $ sudo ldconfig
 $./KinesisStreaming.out <streaming name>
 ```
 <br>
-<streaming name>은 App_AWS에서 설정되어있는 arten입니다. 변경하려면 직접 안드로이드 스튜디오에서 코드를 수정하세요.
+'<streaming name>'은 App_AWS에서 설정되어있는 arten입니다. 변경하려면 직접 안드로이드 스튜디오에서 코드를 수정하세요.
