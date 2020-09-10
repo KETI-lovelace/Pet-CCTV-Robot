@@ -6,7 +6,7 @@
 <br>
 
 ## 라즈베리파이에서 수행해줘야 할 작업
-라즈베리파이에서 AWS 스트리밍을 실행하기 위해서는 이 레포지토리의 raspberrypi 폴더를 다운받은 뒤 다음과 같은 절차를 따릅니다.<br>
+라즈베리파이에서 AWS 스트리밍을 실행하기 위해서는 이 레포지토리의 raspberrypi_AWS 폴더를 다운받은 뒤 다음과 같은 절차를 따릅니다.<br>
 ```
 1. 라이브러리 설치
 $ sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-base-apps gstreamer1.0-plugins-bad gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools
