@@ -2,11 +2,10 @@
 
 ## 프로그램 세부 구성
 
-1. 위험 구역 설정
-2. 모터 회전
-3. 반려동물 디텍팅
-4. 소리 송출
-5. 앱 알람
+1. [위험 구역 설정](https://github.com/KETI-lovelace/Pet-CCTV-Robot/tree/master/raspberrypi#1-%EC%9C%84%ED%97%98-%EA%B5%AC%EC%97%AD-%EC%84%A4%EC%A0%95)
+2. [모터 회전](https://github.com/KETI-lovelace/Pet-CCTV-Robot/tree/master/raspberrypi#2-%EB%AA%A8%ED%84%B0-%EA%B5%AC%EB%8F%99)
+3. [반려동물 디텍팅](https://github.com/KETI-lovelace/Pet-CCTV-Robot/tree/master/raspberrypi#3-%EB%B0%98%EB%A0%A4%EB%8F%99%EB%AC%BC-%EB%94%94%ED%85%8D%ED%8C%85)
+4. [소리 송출](https://github.com/KETI-lovelace/Pet-CCTV-Robot/tree/master/raspberrypi#4-%EC%86%8C%EB%A6%AC-%EC%86%A1%EC%B6%9C)
 
 ## 1. 위험 구역 설정
 
