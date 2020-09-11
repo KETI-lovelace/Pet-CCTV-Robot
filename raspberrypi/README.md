@@ -127,3 +127,6 @@ while pygame.mixer.music.get_busy():
 ### 상세 설명
 
 - ``pygame`` 모듈 이용
+
+## 5. 안드로이드 앱
+Firebase로 안드로이드 앱에 알림을 보내는 부분이다.
