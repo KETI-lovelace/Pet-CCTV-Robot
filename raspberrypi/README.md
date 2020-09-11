@@ -129,4 +129,30 @@ while pygame.mixer.music.get_busy():
 - ``pygame`` 모듈 이용
 
 ## 5. 안드로이드 앱
-Firebase로 안드로이드 앱에 알림을 보내는 부분이다.
+Firebase로 안드로이드 앱에 알림을 보내는 부분으로, appalarm.py이다.<br>
+
+### 코드 부분
+```python
+#3. 먼저 firebase database에서 저장된 token을 모두 가져와야 한다.
+firebase = firebase.FirebaseApplication("https://soboro-6d610.firebaseio.com/", None)
+result = firebase.get("/users", None)
+listToken = []
+for k, v in result.items():
+    listToken.append(v["token"])
+```
+```python
+push_service = FCMNotification(api_key="AAAACXndXcs:APA91bETtBU2UsGeSIToJYp4SFfx0VimIQthlDvZDQD5MmDAD0dCIqbl2JOevt0O0thLAJAGNb_rxkQzeuUYF51CkqO8O0Q_HVtP84TrrTnjE8nnuLJOLXHAHdsUepMfKH2szyw8YklQ")
+```
+이 부분에 본인의 FCMNotification api key를 입력한다. 확인 방법은 다음과 같다.<br>
+Firebase 콘솔 접속 -> Settings -> 클라우드 메시징 -> 서버 키 부분의 토큰<br>
+```python
+message_title = "Soboro"
+message_body = "Hurry up! Your pet is danger! Click this alarm!"
+message_sound = "default"
+```
+이부분을 수정하여 푸시 알림의 타이틀, 내용, 소리 등을 바꿀 수 있다.<br>
+<br>
+appalarm.py는 TFLite_detection_webcam.py에서 쉡스크립트로 실행된다.<br>
+```python
+subprocess.call(['bash', 'runappalarm.sh'])
+```
