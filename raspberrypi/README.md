@@ -156,3 +156,7 @@ appalarm.py는 TFLite_detection_webcam.py에서 쉡스크립트로 실행된다.
 ```python
 subprocess.call(['bash', 'runappalarm.sh'])
 ```
+### 실행 전 설치 라이브러리
+```
+$sudo pip install pyfcm
+```
