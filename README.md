@@ -19,20 +19,27 @@
 ## 사용재료
   라즈베리 파이3B+, 라즈베리 파이4, 라즈베리파이 카메라 모듈*2, 180도 서보모터, 마이크로 SD카드 32G, SD카드 리더기, 라즈베리파이 공식7인치 터치스크린, 스피커 모듈, Coral USB accelerator
 
-## 모델링 (@정민 수정)
-초기 모델 시안은 다음과 같다. 심미성 및 내부 하드웨어 위치를 고려하여 1번 구조를 택했으며, 이후에 하드웨어 크기를 고려하고, 3d 프린팅하기 쉬운 구조로 변형시켰다.
-![초기 시안](./Modeling/Init_design.jpeg)
-모델은 STL 파일로 첨부한다. 3D프린팅 편의를 위해 파트가 다음과 같이 분할되어 있다. 
+## 모델링 
+
+모델은 [STL 파일](https://github.com/KETI-lovelace/Pet-CCTV-Robot/tree/master/hard%20case)로 첨부한다. 3D프린팅 편의를 위해 파트가 다음과 같이 분할되어 있다. 
+
 ```
-.
-├── cat_body_width_left.STL
-├── cat_body_width_right.STL
-├── real_cat_head_back.STL
-├── real_cat_head_front.STL
-└── real_cat_head_middle.STL
+hard case
+ ├─camera_fixer.STL
+ ├─camera_fixer_front.STL
+ ├─cat_ear2.STL
+ ├─cat_head_case.STL
+ ├─cat_neck3.STL
+ ├─cat_shape_behind2.STL
+ ├─cat_shape_cap4.STL
+ ├─cat_shape_side_wall3_back.STL
+ ├─cat_shape_side_wall3_front.STL
+ ├─head_behind.STL
+ └─motor_case3.STL
 ```
+
 위의 파트들을 모두 합쳐 에셈블을 만들면 다음과 같다.
-![최종 모델](./Modeling/final_model.png)
+![최종 모델](./hard_case/realcut.png)
 
 ## 하드웨어 세부 구성
 ```
